@@ -17,7 +17,7 @@ class UserCreationForm(forms.ModelForm):
         pass1 = self.cleaned_data["password1"]
         pass2 = self.cleaned_data["password2"]
         if pass1 and pass2 and pass1 != pass2:
-            raise ValidationError("Your password is wrong or deffrente")
+            raise ValidationError("Your password is wrong or diffrente")
         return pass2
     
     def save(self,commit=True):
@@ -34,3 +34,22 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['mobile_number','password','email','name','family','gender','is_active','is_admin']
+        
+#------------------------------------------------------------------------------------------------------
+class UserRegisterForm(ModelForm):
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Re-Password", widget=forms.PasswordInput)
+    
+    class Meta:
+        model = CustomUser
+        fields = ['mobile_number']
+        
+    def clean_password2(self):
+        pass1 = self.cleaned_data['password1']
+        pass2 = self.cleaned_data['password2']
+        if pass1 and pass2 and pass1 != pass2:
+            raise ValidationError('Your password is wrong or diffrente')
+        return pass2
+    
+class VerifyRegisterCodeForm(forms.Form):
+    active_code = forms.CharField(label='Activate code', error_messages={'requierd':'This field is requierd'})

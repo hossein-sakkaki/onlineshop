@@ -179,15 +179,15 @@
                 </li>
 
                 <li class="nav-links__item nav-links__item--with-submenu">
-                  <a href="#"><span>حساب کاربری&nbsp;<i class="fa fa-angle-down"></i></span></a>
+                  <a href="#"><span>User Account&nbsp;<i class="fa fa-angle-down"></i></span></a>
                   <div class="nav-links__menu">
                     <!-- .menu -->
                     <ul class="menu menu--layout--classic">
                       <li>
-                        <a href="login.html">ورود</a>
+                        <a href="login.html">Login</a>
                       </li>
                       <li>
-                        <a href="register.html">ثبت نام</a>
+                        <a href="{% url 'accounts:register' %} ">Register</a>
                       </li>
                     </ul>
                     <!-- .menu / end -->
