@@ -37,12 +37,15 @@ class UserChangeForm(forms.ModelForm):
         
 #------------------------------------------------------------------------------------------------------
 class UserRegisterForm(ModelForm):
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Re-Password", widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Enter the Password'}))
+    password2 = forms.CharField(label="Re-Password", widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Enter the Re-Password'}))
     
     class Meta:
         model = CustomUser
         fields = ['mobile_number']
+        widgets = {
+            'mobile_number': forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Mobile Number'})
+        }
         
     def clean_password2(self):
         pass1 = self.cleaned_data['password1']
@@ -52,4 +55,38 @@ class UserRegisterForm(ModelForm):
         return pass2
     
 class VerifyRegisterCodeForm(forms.Form):
-    active_code = forms.CharField(label='Activate code', error_messages={'requierd':'This field is requierd'})
+    active_code = forms.CharField(label='Activate code',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Please enter the code'}))
+    
+class LoginUserForm(forms.Form):
+    mobile_number = forms.CharField(label='Phone Number',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Please enter Phone'}))
+    
+    password = forms.CharField(label='Password',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Please enter Password'}))
+    
+    
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(label='Password',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Please enter Password'}))
+    password2 = forms.CharField(label='Password',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Please enter Re-Password'}))
+    
+    def clean_password2(self):
+        pass1 = self.cleaned_data['password1']
+        pass2 = self.cleaned_data['password2']
+        if pass1 and pass2 and pass1 != pass2:
+            raise ValidationError('Your password is wrong or diffrente')
+        return pass2
+    
+class RememberPasswordForm(forms.Form):
+    mobile_number = forms.CharField(label='Phone Number',
+                                  error_messages={'requierd':'This field is requierd'},
+                                  widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Please enter Phone'}))
+    
+    

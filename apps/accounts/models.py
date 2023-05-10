@@ -38,7 +38,7 @@ class CostomUserManeger(BaseUserManager):
         
 
 class CustomUser(AbstractBaseUser,PermissionsMixin):
-    mobile_number = models.CharField(max_length=11, unique=True)
+    mobile_number = models.CharField(max_length=11, unique=True, verbose_name='Molbile Number')
     email = models.EmailField(max_length=254, blank=True)
     name = models.CharField(max_length=50, blank=True)
     family = models.CharField(max_length=50, blank=True)
