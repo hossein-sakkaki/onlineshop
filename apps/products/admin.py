@@ -1,7 +1,7 @@
-from typing import Any
+from typing import Any, List, Optional, Tuple
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.db.models.query import QuerySet
-from django.http.request import HttpRequest
 from django.http import HttpResponse
 from django.core import serializers
 from .models import Brand, ProductGroup, Feature, Product, ProductFeature, ProductGallery
@@ -20,6 +20,21 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('brand_title',)}
     
 #---------==========================================================---------#
+# Change & Handle Filter #
+class GroupFilter(SimpleListFilter):
+    title = 'Product group'
+    parameter_name = 'group'          # URL-Name'
+    
+    def lookups(self, request, model_admin):
+        sub_group = ProductGroup.objects.filter(~Q(group_parent=None))
+        groups = set([item.group_parent for item in sub_group])
+        return [(item.id, item.group_title) for item in groups]
+    
+    def queryset(self, request, queryset):
+        if self.value() != None:
+            return queryset.filter(Q(group_parent = self.value()))
+        return queryset
+
 # Actions for product group admin #
 def deactive_product_group(modeladmin, request, queryset):
     qs = queryset.update(is_active=False)
@@ -47,27 +62,34 @@ def export_json(modeladmin, request, queryset):
 # inline view product group admin #
 class ProductGroupInstanceInlineAdmin(admin.TabularInline):
     model = ProductGroup
+    extra = 1
     
 @admin.register(ProductGroup)
 class ProductGroupAdmin(admin.ModelAdmin):
-    list_display = ('group_title','is_active','group_parent','slug','register_date','update_date','count_sub_group')
-    list_filter = ('group_title',('group_parent',DropdownFilter))
+    list_display = ('group_title','is_active','group_parent','slug','register_date','update_date','count_sub_group','count_product_of_group')
+    list_filter = (GroupFilter,('group_parent__group_title',DropdownFilter),)
     search_fields = ('group_title',)
     ordering = ('group_parent','group_title')
     prepopulated_fields = {'slug':('group_title','group_parent')}
 
     inlines = [ProductGroupInstanceInlineAdmin]
     actions = [deactive_product_group, active_product_group, export_json]
+    list_editable = ['is_active']
     
     def get_queryset(self, *args, **kwargs):
         qs = super(ProductGroupAdmin,self).get_queryset(*args, **kwargs)
         qs = qs.annotate(sub_group=Count('groups'))
+        qs = qs.annotate(product_of_group=Count('products_of_groups'))
         return qs
     
     def count_sub_group(self, obj):
         return obj.sub_group
     
-    # count_sub_group.short_description = 'Count Sub Group'
+    def count_product_of_group(self, obj):
+        return obj.sub_group
+    
+    count_sub_group.short_description = 'Sub Product'
+    count_product_of_group.short_description = 'Product Count'
     
 #---------==========================================================---------#
 @admin.register(Feature)
@@ -100,17 +122,20 @@ def active_product(modeladmin, request, queryset):
 # inline view product admin #
 class ProductFeatureInlineAdmin(admin.TabularInline):
     model = ProductFeature
+    extra = 1
     
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name','display_product_group','price','brand','is_active','update_date','slug')
-    list_filter = ('brand','product_group')
+    list_filter = (('brand__brand_title',DropdownFilter),('product_group__group_title',DropdownFilter))
     search_fields = ('product_name',)
     ordering = ('update_date','product_name')
     prepopulated_fields = {'slug':('product_name','brand')}
     
     actions = [deactive_product, active_product]
     inlines = [ProductFeatureInlineAdmin]
+    list_editable = ['is_active']
+
 
     def display_product_group(self, obj):
         return ', '.join([group.group_title for group in obj.product_group.all()])
@@ -136,7 +161,6 @@ class ProductAdmin(admin.ModelAdmin):
             ),
         }),
     )
-    
     
     
     

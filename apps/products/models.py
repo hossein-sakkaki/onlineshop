@@ -1,6 +1,7 @@
 from django.db import models
 from utils import FileUpload
 from django.utils import timezone
+from ckeditor_uploader.fields import RichTextUploadingField
 
 #---------==========================================================---------#
 
@@ -43,7 +44,8 @@ class Feature(models.Model):
 #---------==========================================================---------#
 class Product(models.Model):
     product_name = models.CharField(max_length=200, verbose_name="Product name")
-    description = models.TextField(blank=True, null=True, verbose_name='Product description')
+    # description = models.TextField(blank=True, null=True, verbose_name='Product description')
+    description = RichTextUploadingField(config_name='default', blank=True, null=True, verbose_name='Product description')
     file_upload = FileUpload('images', 'product')
     image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name="Product picture")
     price = models.PositiveIntegerField(default=0, verbose_name="Product price")
