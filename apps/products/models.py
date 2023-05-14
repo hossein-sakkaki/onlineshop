@@ -1,6 +1,7 @@
 from django.db import models
 from utils import FileUpload
 from django.utils import timezone
+from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 
 #---------==========================================================---------#
@@ -64,6 +65,10 @@ class Product(models.Model):
     
     def __str__(self) -> str:
         return self.product_name
+    
+    def get_absolute_url(self):
+        return reverse("products:product_detail", kwargs={"slug": self.slug})
+    
     
 #---------==========================================================---------#
 class ProductFeature(models.Model):

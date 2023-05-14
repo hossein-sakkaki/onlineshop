@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_admin_listfilter_dropdown',
     'ckeditor',
     'ckeditor_uploader',
+    'django_render_partial',
 ]
 
 MIDDLEWARE = [

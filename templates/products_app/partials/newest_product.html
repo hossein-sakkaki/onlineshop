@@ -1,0 +1,24 @@
+<div class="block block-products-carousel" data-layout="grid-5">
+    <div class="container">
+        {% include 'partials/products/root_group.html' with title='Newest product' %}
+
+        <div class="product-flexbox" style="">
+            {% for product in products %}
+                {% include 'partials/products/product_box.html' with type=2 %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+        {% comment %} <div class="block-products-carousel__slider">
+            <div class="block-products-carousel__preloader"></div>
+            <div class="owl-carousel">
+                <div class="block-products-carousel__column">
+                    <div class="block-products-carousel__cell">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> {% endcomment %}
