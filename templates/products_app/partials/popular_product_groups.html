@@ -10,20 +10,20 @@
             <div class="block-categories__item category-card category-card--layout--compact">
                 <div class="category-card__body">
                     <div class="category-card__image">
-                        <a href="">
+                        <a href="{% url 'products:product_by_groups' slug=group.slug %}">
                             <img src="{{media_url}}{{group.image_name}}" alt="">
                         </a>
                     </div>
                     <div class="category-card__content">
-                        <div class="category-card__name"><a href="">{{group.group_title}}</a></div>
+                        <div class="category-card__name">
+                            <a href="{% url 'products:product_by_groups' slug=group.slug %}">{{group.group_title}}</a>
+                        </div>
                         <div class="category-card__products">product {{group.products_of_groups.all|length }}</div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-
-
-
+            <a href="#">All</a> 
         </div>
     </div>
 </div>

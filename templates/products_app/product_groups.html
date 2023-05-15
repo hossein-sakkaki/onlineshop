@@ -1,0 +1,31 @@
+{% extends 'main_template.html' %}
+{% load render_partial %}
+
+{% block title %}
+Product Groups
+{% endblock title %}
+
+
+
+{% block content %}
+<div class="block-categories__list">
+
+    {% for group in product_groups %}
+    <div class="block-categories__item category-card category-card--layout--compact">
+        <div class="category-card__body">
+            <div class="category-card__image">
+                <a href="">
+                    <img src="{{media_url}}{{group.image_name}}" alt="">
+                </a>
+            </div>
+            <div class="category-card__content">
+                <div class="category-card__name"><a href="">{{group.group_title}}</a></div>
+                <div class="category-card__products">product {{group.products_of_groups.all|length }}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <a href="#">All</a> 
+</div>
+{% endblock content %}
+

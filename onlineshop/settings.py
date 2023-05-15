@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_render_partial',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

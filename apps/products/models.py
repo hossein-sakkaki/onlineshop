@@ -45,7 +45,7 @@ class Feature(models.Model):
 #---------==========================================================---------#
 class Product(models.Model):
     product_name = models.CharField(max_length=200, verbose_name="Product name")
-    # description = models.TextField(blank=True, null=True, verbose_name='Product description')
+    summery_description = models.TextField(default="", blank=True, null=True)
     description = RichTextUploadingField(config_name='default', blank=True, null=True, verbose_name='Product description')
     file_upload = FileUpload('images', 'product')
     image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name="Product picture")
@@ -72,7 +72,7 @@ class Product(models.Model):
     
 #---------==========================================================---------#
 class ProductFeature(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product", related_name="product_features")
     feature = models.ForeignKey(Feature, on_delete=models.CASCADE, verbose_name="Feature")
     value = models.CharField(max_length=100, verbose_name="Product feature value")
     
@@ -81,6 +81,6 @@ class ProductFeature(models.Model):
 
 #---------==========================================================---------#
 class ProductGallery(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product", related_name="gallery_images")
     file_upload = FileUpload('images', 'product_gallery')
     image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name="Product group picture")

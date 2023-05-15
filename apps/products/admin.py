@@ -124,6 +124,10 @@ class ProductFeatureInlineAdmin(admin.TabularInline):
     model = ProductFeature
     extra = 1
     
+class ProductGalleryInlineAdmin(admin.TabularInline):
+    model = ProductGallery
+    extra = 3
+    
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name','display_product_group','price','brand','is_active','update_date','slug')
@@ -133,7 +137,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('product_name','brand')}
     
     actions = [deactive_product, active_product]
-    inlines = [ProductFeatureInlineAdmin]
+    inlines = [ProductFeatureInlineAdmin, ProductGalleryInlineAdmin]
     list_editable = ['is_active']
 
 
