@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Product, ProductGroup
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Min, Max
 # Create your views here.
 
 
@@ -49,6 +49,12 @@ def get_related_product(request, *args, **kwargs):
         related_product.extend(Product.objects.filter(Q(is_active=True), Q(product_group=product), ~Q(id=current_product.id)))
     return render(request, 'products_app/partials/related_product.html', {'related_product':related_product})
 
+
+
+
+
+
+
 # detail product
 class ProductDetailView(View):
     def get(self, request, slug):
@@ -63,6 +69,25 @@ class ProductGroupsView(View):
                                         .annotate(count=Count('products_of_groups'))\
                                         .order_by('-count')
         return render(request, 'products_app/product_groups.html', {'product_groups': product_groups})
+
+
+
+
+# def get_product_groups(request):
+#     product_groups = ProductGroup.objects.annotate(count = Count('products_of_groups'))\
+#                                         .filter(Q(is_active=True), ~Q(count = 0))\
+#                                         .order_by('-count')
+#     return render(request, 'products_app/partials/product_groups.html', {'product_groups': product_groups})
+
+
+
+
+
+
+
+
+
+
 
 # All product of list groups
 class ProductByGroup(View):

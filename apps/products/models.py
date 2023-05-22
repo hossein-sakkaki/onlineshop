@@ -71,10 +71,19 @@ class Product(models.Model):
     
     
 #---------==========================================================---------#
+class FeatureValue(models.Model):
+    value_title = models.CharField( max_length=100, verbose_name="Value title")
+    feature = models.ForeignKey(Feature, on_delete=models.CASCADE, verbose_name="Feature", related_name="feature_values")
+    
+    def __str__(self):
+        return f'{self.id} {self.value_title}'
+
+#---------==========================================================---------#
 class ProductFeature(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product", related_name="product_features")
     feature = models.ForeignKey(Feature, on_delete=models.CASCADE, verbose_name="Feature")
     value = models.CharField(max_length=100, verbose_name="Product feature value")
+    feature_value = models.ForeignKey(FeatureValue, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Feature value", related_name="product_group")
     
     def __str__(self) -> str:
         return f"{self.product}-{self.feature}: {self.value}"

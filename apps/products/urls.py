@@ -10,4 +10,5 @@ urlpatterns = [
     path('product_detail/<slug:slug>/',views.ProductDetailView.as_view(), name='product_detail'),
     path('product_groups/',views.ProductGroupsView.as_view(), name='product_groups'),
     path('product_by_groups/<slug:slug>/',views.ProductByGroup.as_view(), name='product_by_groups'),
+    # path('product_groups_partials/', views.get_product_groups, name='product_groups_partials'),
 ]
