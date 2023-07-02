@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum, Avg
 from utils import FileUpload
 from django.utils import timezone
 from django.urls import reverse
@@ -61,6 +62,18 @@ class Product(models.Model):
     register_date = models.DateTimeField(auto_now=True, verbose_name="Register date")
     published_date = models.DateTimeField(default=timezone.now, verbose_name="Published date")
     update_date = models.DateTimeField(auto_now=True, verbose_name="Update date")
+    
+    def get_quantity_in_warehouse(self):
+        sum1 = self.warehouses_products.flter(warehouse_type_id=1).aggregate(sum('qty'))
+        sum2 = self.warehouses_products.flter(warehouse_type_id=2).aggregate(sum('qty'))
+        input = 0
+        if sum1['qty__sum'] != None:
+            input = sum1['qty__sum']
+        output = 0
+        if sum2['qty__sum'] != None:
+            input = sum2['qty__sum']
+        return input - output
+        
     
     
     def __str__(self) -> str:
