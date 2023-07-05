@@ -16,5 +16,28 @@ class Comment(models.Model):
         return f'{self.product} {self.commenting_user}'
     
     
+class Scoring(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product", related_name='scoring_product')
+    scoring_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Scoring user", related_name='scoring_user1')
+    register_date = models.DateTimeField(auto_now_add=True, verbose_name='Register date')
+    score = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='Score')
+    
+    def __str__(self):
+        return f'{self.product} {self.scoring_user}'
+    
+class Favorite(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product", related_name='favorite_product')
+    favorite_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Favorite user", related_name='favorite_user1')
+    register_date = models.DateTimeField(auto_now_add=True, verbose_name='Register date')
+    
+    def __str__(self):
+        return f'{self.product} {self.favorite_user}'
+    
+    
+
+
+    
+    
+    
     
 

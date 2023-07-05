@@ -73,6 +73,16 @@ class Product(models.Model):
         if sum2['qty__sum'] != None:
             input = sum2['qty__sum']
         return input - output
+    
+    def get_user_score(self):
+        pass
+    
+    def get_average_score(self):
+        avgScore = self.scoring_product.all().aggregate(Avg('score'))['score__avg']
+        if avgScore == None:
+            avgScore = 0
+        return int(avgScore)
+            
         
     
     
