@@ -4,6 +4,7 @@ from utils import FileUpload
 from django.utils import timezone
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
+import middlewares
 
 #---------==========================================================---------#
 
@@ -75,7 +76,13 @@ class Product(models.Model):
         return input - output
     
     def get_user_score(self):
-        pass
+        request = middlewares.RequestMiddleware(get_response = None)
+        request = request.thread_local.current_request
+        score = 0
+        user_score = self.scoring_product.filter(scoring_user=request.user)
+        if user_score.count()>0:
+            score = user_score[0].score
+        return score
     
     def get_average_score(self):
         avgScore = self.scoring_product.all().aggregate(Avg('score'))['score__avg']
@@ -83,9 +90,6 @@ class Product(models.Model):
             avgScore = 0
         return int(avgScore)
             
-        
-    
-    
     def __str__(self) -> str:
         return self.product_name
     
