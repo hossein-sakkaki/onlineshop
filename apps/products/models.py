@@ -4,7 +4,7 @@ from utils import FileUpload
 from django.utils import timezone
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
-import middlewares
+from middlewares.middlewares import RequestMiddleware
 
 #---------==========================================================---------#
 
@@ -76,7 +76,7 @@ class Product(models.Model):
         return input - output
     
     def get_user_score(self):
-        request = middlewares.RequestMiddleware(get_response = None)
+        request = RequestMiddleware(get_response = None)
         request = request.thread_local.current_request
         score = 0
         user_score = self.scoring_product.filter(scoring_user=request.user)
@@ -89,13 +89,19 @@ class Product(models.Model):
         if avgScore == None:
             avgScore = 0
         return int(avgScore)
+    
+    def get_user_favorite(self):
+        request = RequestMiddleware(get_response = None)
+        request = request.thread_local.current_request
+        flag = self.favorite_product.filter(favorite_user=request.user)
+        return flag
+        
             
     def __str__(self) -> str:
         return self.product_name
     
     def get_absolute_url(self):
         return reverse("products:product_detail", kwargs={"slug": self.slug})
-    
     
 #---------==========================================================---------#
 class FeatureValue(models.Model):
