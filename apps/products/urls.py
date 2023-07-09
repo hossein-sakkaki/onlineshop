@@ -11,4 +11,9 @@ urlpatterns = [
     path('product_groups/',views.ProductGroupsView.as_view(), name='product_groups'),
     path('product_by_groups/<slug:slug>/',views.ProductByGroup.as_view(), name='product_by_groups'),
     # path('product_groups_partials/', views.get_product_groups, name='product_groups_partials'),
+    
+    path('compare_table/',views.compare_table, name='compare_table'),
+    path('add_to_compare_list/',views.add_to_compare_list, name='add_to_compare_list'),
+    path('delete_from_compare_list/',views.delete_from_compare_list, name='delete_from_compare_list'),
+    path('status_of_compare_list/',views.status_of_compare_list, name='status_of_compare_list'),
 ]

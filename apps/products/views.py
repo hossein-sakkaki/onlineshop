@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views import View
 from .models import Product, ProductGroup
 from django.db.models import Q, Count, Min, Max
+from .compare import CompareProduct
 # Create your views here.
 
 
@@ -96,4 +97,47 @@ class ProductByGroup(View):
         products = Product.objects.filter(Q(is_active=True), Q(product_group=currrent_group))
         return render(request, 'products_app/products_by_group.html', {'products':products, 'currrent_group':currrent_group})
         
+class ShowCompareListView(View):
+    def get(self, request, *args, **kwargs):
+        compare_list = CompareProduct(request)
+        context = {
+            'compare_list': compare_list,
+        }
+        return render(request, 'product_app/compare_list.html', context)
     
+def compare_table(request):
+    compare_list = CompareProduct(request)
+    
+    products = []
+    for productId in compare_list.compare_product:
+        product = Product.objects.get(id = productId)
+        products.append(product)
+        
+    features = []
+    for product in products:
+        for item in product.product_features.all():
+            if item.feature not in features:
+                features.append(item.feature)
+    
+    context = {
+        'products': products,
+        'features': features
+    }
+    return render(request, 'product_app/partials/compare_table.html', context)
+   
+
+def status_of_compare_list(request):
+    compareList = CompareProduct(request)
+    return HttpResponse(compareList.count)
+             
+def add_to_compare_list(request):
+    productID = request.GET.get('productID')
+    compareList = CompareProduct(request)
+    compareList.add_to_compare_product(productID)
+    return HttpResponse('Add Product To List')
+    
+def delete_from_compare_list(request):
+    productID = request.GET.get('productID')
+    compareList = CompareProduct(request)
+    compareList.delete_from_compare_product(productID)
+    return redirect('products:compare_table')

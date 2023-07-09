@@ -256,8 +256,17 @@ Product detail
                         </div> {% endcomment %}
                         <div class="product__share-links share-links">
                             <ul class="share-links__list">
-                                <li class="share-links__item share-links__item--type--like"><a href="">اشتراک گذاری</a></li>
+                                <li class="share-links__item share-links__item--type--like"><a href="">Share</a></li>
                             </ul>
+
+
+                            <a onclick="addToCompareList({{product.id}},{{product.getMainProductGroups}})" style="cursor: pointer;">
+                                <div style="margin: 10px; padding: 5px; border: 2px solid #f1f1f1; width: 100px; border-radius: 5px;">
+                                    Compare
+                                </div>
+                            </a>
+
+                            
                         </div>
                     </div>
                 </div>

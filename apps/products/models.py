@@ -95,6 +95,9 @@ class Product(models.Model):
         request = request.thread_local.current_request
         flag = self.favorite_product.filter(favorite_user=request.user)
         return flag
+    
+    def getMainProductGroups(self):
+        return self.product_group.all()[0].id
         
             
     def __str__(self) -> str:

@@ -1,4 +1,3 @@
-from typing import Any, List, Optional, Tuple
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.db.models.query import QuerySet
