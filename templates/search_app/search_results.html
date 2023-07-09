@@ -1,0 +1,26 @@
+{% extends 'main_template.html' %}
+{% load render_partial %}
+
+{% block title %}
+Search Result
+{% endblock title %}
+
+{% block content %}
+    {% if products %}
+        <div>
+            <div class="container">
+                <h2 style="text-align: center;">Result: </h2>
+                <div class="product-flexbox">
+                    {% for product in products %}
+                        {% include 'partials/products/product_box.html' with type=1 %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+    <div class="container">
+        <h3 style="text-align: center; color: red;">No any product</h3>
+    </div>
+    {% endif %}
+{% endblock content %}
+

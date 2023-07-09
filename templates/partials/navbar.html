@@ -159,10 +159,12 @@
               <button type="button" class="indicator__button"><span class="indicator__area"><i class="fa fa-search"></i></span></button>
               <div class="indicator__dropdown">
                 <div class="drop-search">
-                  <form action="" class="drop-search__form">
-                    <input class="drop-search__input" name="search" placeholder="جستجو از میان 10,000 محصول" aria-label="Site search" type="text" autocomplete="off" />
+                  
+                  <form action="{% url 'search:search_view' %}" class="drop-search__form">
+                    <input class="drop-search__input" name="q" placeholder="جستجو از میان 10,000 محصول" aria-label="Site search" type="text" autocomplete="off" />
                     <button class="drop-search__button drop-search__button--submit" type="submit"><i class="fa fa-search"></i></button>
                   </form>
+
                 </div>
               </div>
             </div>

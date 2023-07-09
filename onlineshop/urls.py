@@ -24,5 +24,6 @@ urlpatterns = [
     path('accounts/',include('apps.accounts.urls',namespace='accounts')),
     path('products/',include('apps.products.urls',namespace='products')),
     path('feedback/',include('apps.feedback.urls',namespace='feedback')),
+    path('search/',include('apps.search.urls',namespace='search')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
