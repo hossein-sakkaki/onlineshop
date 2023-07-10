@@ -131,13 +131,14 @@ def status_of_compare_list(request):
     return HttpResponse(compareList.count)
              
 def add_to_compare_list(request):
-    productID = request.GET.get('productID')
+    productId = request.GET.get('productId')
+    # productGroupId = request.GET.get('productGroupId')
     compareList = CompareProduct(request)
-    compareList.add_to_compare_product(productID)
+    compareList.add_to_compare_product(productId)
     return HttpResponse('Add Product To List')
     
 def delete_from_compare_list(request):
-    productID = request.GET.get('productID')
+    productId = request.GET.get('productId')
     compareList = CompareProduct(request)
-    compareList.delete_from_compare_product(productID)
+    compareList.delete_from_compare_product(productId)
     return redirect('products:compare_table')

@@ -1,4 +1,5 @@
 {% extends 'main_template.html' %}
+{% load render_partial %}
 
 {% block title %}
 Home Page
@@ -7,8 +8,9 @@ Home Page
 
 
 {% block content %}
-
-<h1>user pannel</h1>
-
+    <div class="dashboard">
+        {% include 'accounts_app/partials/user_info.html' %}
+        {% render_partial 'accounts:show_last_orders' %}
+    </div>
 {% endblock content %}
 

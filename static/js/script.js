@@ -30,3 +30,18 @@ function addToCompareList(productId, productGroupId) {
         }
     })
 }
+
+function deleteFromCompareList(productId) {
+    $.ajax({
+        type: "GET",
+        url: '/products/delete_from_compare_list/',
+        data: {
+            productId: productId,
+        },
+        success: function (res) {
+            alert('Deleted...!');
+            $('#compare_list').html(res);
+            status_of_compare_list()
+        }
+    })
+}

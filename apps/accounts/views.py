@@ -5,6 +5,11 @@ from .forms import UserRegisterForm, VerifyRegisterCodeForm, LoginUserForm, Chan
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from apps.orders.models import Order
+from apps.payments.models import Payment
+
 
 import utils
 
@@ -177,13 +182,48 @@ class RememberPasswordView(View):
                 return render(request, self.template_name,{'form':form})
 
 
+# class UserPanelView(LoginRequiredMixin, View):
+#     template_name= 'accounts_app/userpanel.html'
+    
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.user.is_authenticated:
+#             return redirect('main:index')
+#         return super().dispatch(request, *args, **kwargs)
+    
+#     def get(self, request, *args, **kwargs):
+#         return render(request, self.template_name)
+
 class UserPanelView(LoginRequiredMixin, View):
     template_name= 'accounts_app/userpanel.html'
     
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('main:index')
-        return super().dispatch(request, *args, **kwargs)
-    
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        user = request.user 
+        try:
+            customer = CustomUser.objects.get(user = request.user)
+            user_info = {
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+                'mobile_number': customer.mobile_number,
+                'adress': customer.address,
+                'image': customer.image_name,
+            }
+        except ObjectDoesNotExist:
+            user_info = {
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+            }
+            
+            
+        return render(request, self.template_name, {'user_info': user_info})
+
+@login_required
+def show_last_orders(request):
+    orders = Order.objects.filter(customer_id = request.user.id).order_by('-register_date')[:4]
+    return render(request, 'accounts_app/partials/show_last_orders.html',{'orders': orders} )
+
+@login_required
+def show_user_payments(request):
+    payments = Payment.objects.filter(customer_id = request.user.id).order_by('-register_date')
+    return render(request, 'accounts_app/partials/show_user_payments.html',{'payments': payments} )
