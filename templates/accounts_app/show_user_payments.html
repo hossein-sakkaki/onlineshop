@@ -1,0 +1,45 @@
+{% extends 'user_panel_template.html' %}
+{% load humanize %}
+
+{% block title %}
+User Payments
+{% endblock title %}
+
+{% block content %}
+<div class="dashboard__orders card">
+    <div class="card-header">
+        <h5>Your Payment</h5></div>
+    <div class="card-divider"></div>
+    <div class="card-table">
+        <div class="table-responsive-sm">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Number payment</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                        <tr>
+                            <td><a href="">{{payment.id}}</a></td>
+                            <td>{{payment.register_date}}</td>
+                            <td>
+                                {% if payment.is_finally %}
+                                    <span class="text-success">Paid</span>
+                                {% else %}
+                                    <span class="text-danger">Unpaid</span>
+                                {% endif %}
+                            </td>
+                            <td>{{payment.amount|intcomma}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

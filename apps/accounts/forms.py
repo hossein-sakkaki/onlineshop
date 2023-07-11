@@ -90,3 +90,13 @@ class RememberPasswordForm(forms.Form):
                                   widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Please enter Phone'}))
     
     
+class UpdateProfileForm(forms.Form):
+    mobile_number = forms.TextInput(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Your Mobile Number'}))
+    name = forms.TextInput(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Your Name'}))
+    family = forms.TextInput(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Your Family'}))
+    email = forms.EmailInput(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Your Email'}))
+    phone_number = forms.TextInput(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Your Phone Number'}))
+    address = forms.Textarea(label='', error_messages={'This field should not be empty'}, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address'}))
+    image = forms.ImageField(required=False)
+    
+    

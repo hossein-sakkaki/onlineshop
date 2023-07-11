@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import CustomUser
+from .models import CustomUser, Customer
+from .forms import UpdateProfileForm
 from django.views import View
 from .forms import UserRegisterForm, VerifyRegisterCodeForm, LoginUserForm, ChangePasswordForm, RememberPasswordForm
 from django.contrib import messages
@@ -199,7 +200,7 @@ class UserPanelView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user 
         try:
-            customer = CustomUser.objects.get(user = request.user)
+            customer = Customer.objects.get(user = request.user)
             user_info = {
                 'name': user.name,
                 'family': user.family,
@@ -214,9 +215,66 @@ class UserPanelView(LoginRequiredMixin, View):
                 'family': user.family,
                 'email': user.email,
             }
-            
-            
         return render(request, self.template_name, {'user_info': user_info})
+    
+class UpdateProfileView(View):
+    def get(self, request):
+        user = request.user 
+        try:
+            customer = Customer.objects.get(user = request.user)
+            initial_dict = {
+                'mobile_number': user.mobile_number,
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+                
+                'phone_number': customer.phone_number,
+                'adress': customer.address,
+            }
+        except ObjectDoesNotExist:
+            initial_dict = {
+                'mobile_number': user.mobile_number,
+                'name': user.name,
+                'family': user.family,
+                'email': user.email,
+            }
+        form = UpdateProfileForm(initial = initial_dict)
+        return render(request,'accounts_app/update_profile.html',{'form': form, 'image_url':customer.image_name})
+    
+    def post(self, request):
+        form = UpdateProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = request.user
+            user.name = data['name']
+            user.family = data['family']
+            user.email = data['email']
+            user.save()
+            try:
+                customer = Customer.objects.get(user = request.user)
+                customer.phone_number = data['phone_number']
+                customer.address = data['address']
+                customer.image_name = data['image']
+                customer.save()
+            except ObjectDoesNotExist:
+                Customer.objects.create(
+                    user = request.user,
+                    phone_number = data['phone_number'],
+                    address = data['address'],
+                    image = data['image'],
+                )
+            messages.success(request,'Your edit profile is done!','success')
+            return redirect('accounts:userpanel')
+        else:
+            messages.error(request,'The entered information is Not Valid','danger')
+            return render(request, 'accounts_app/update_profile.html',{'form': form})
+     
+@login_required       
+def show_user_payments(request):
+    payments = Payment.objects.filter(customer_id=request.user.id).order_by('-register_date') 
+    return render(request, 'accounts_app/show_user_payments.html',{'payments': payments} )
+ 
+
 
 @login_required
 def show_last_orders(request):
