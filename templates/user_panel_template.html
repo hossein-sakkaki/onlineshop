@@ -33,10 +33,10 @@
 					<div class="page-header__breadcrumb">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="user-dashboard.html">داشبورد</a>
+								<li class="breadcrumb-item"><a href="user-dashboard.html">Dashboard</a>
 									/
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">ویرایش پروفایل</li>
+								<li class="breadcrumb-item active" aria-current="page">Edit profile</li>
 							</ol>
 						</nav>
 					</div>
@@ -51,11 +51,11 @@
 							<div class="account-nav flex-grow-1">
 								<h4 class="account-nav__title">Menu</h4>
 								<ul>
-									<li class="account-nav__item account-nav__item--active"><a href="user-dashboard.html">داشبورد</a></li>
-									<li class="account-nav__item"><a href="user-profile.html">ویرایش پروفایل</a></li>
-									<li class="account-nav__item"><a href="orders-records.html">سابقه خرید</a></li>
-									<li class="account-nav__item"><a href="change-password.html">تغییر رمز عبور</a></li>
-									<li class="account-nav__item"><a href="../index.html">خروج</a></li>
+									<li class="account-nav__item account-nav__item--active"><a href="{% url 'accounts:userpanel' %}">Dashboard</a></li>
+									<li class="account-nav__item"><a href="{% url 'accounts:update_profile' %}">Edit Profile</a></li>
+									<li class="account-nav__item"><a href="{% url 'accounts:show_user_payments' %}">Buy History</a></li>
+									<li class="account-nav__item"><a href="{% url 'accounts:change_password' %}">Change Password</a></li>
+									<li class="account-nav__item"><a href="{% url 'accounts:logout' %}">Logout</a></li>
 								</ul>
 							</div>
 						</div>
