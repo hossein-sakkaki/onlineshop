@@ -18,8 +18,8 @@
         <div class="product-card__prices">{{product.price|intcomma}} $</div>
         <div class="product-card__buttons">
             <button class="btn btn-primary product-card__addtocart"
-                type="button">
-                add to basket
+                type="button" onclick="add_to_shop_cart({{product_id}},1)">
+                Add to basket
             </button>
             <button
                 class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
@@ -65,8 +65,8 @@
                 تومان</span> <span class="product-card__old-price">{{product.price|intcomma}}
                 تومان</span></div>
         <div class="product-card__buttons">
-            <button class="btn btn-primary product-card__addtocart" type="button">
-                add to basket
+            <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{product_id}},1)">
+                Add to basket
             </button>
             <button
                 class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
@@ -101,8 +101,8 @@
             <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
             <div class="product-card__prices">{{product.price|intcomma}} $</div>
             <div class="product-card__buttons">
-                <button class="btn btn-primary product-card__addtocart" type="button">افزودن به سبد</button>
-                <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button">افزودن به سبد</button>
+                <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{product_id}},1)">Add to basket</button>
+                <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" onclick="add_to_shop_cart({{product_id}},1)">Add to basket</button>
                 <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
                     <svg width="16px" height="16px">
                         <use xlink:href="images/sprite.svg#wishlist-16"></use>

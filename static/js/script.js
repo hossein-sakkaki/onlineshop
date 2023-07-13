@@ -45,3 +45,7 @@ function deleteFromCompareList(productId) {
         }
     })
 }
+
+function add_to_shop_cart(productId, qty) {
+    alert(productId+' '+qty)
+}
