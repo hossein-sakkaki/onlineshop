@@ -46,6 +46,17 @@ function deleteFromCompareList(productId) {
     })
 }
 
-function add_to_shop_cart(productId, qty) {
-    alert(productId+' '+qty)
+function add_to_shop_cart(product_id, qty) {
+    // alert(productId+' '+qty)
+    $.ajax({
+        type: 'GET',
+        url: '/orders/add_to_shop_cart/',
+        data: {
+            product_id: product_id,
+            qty: qty
+        },
+        success: function (res) {
+            $('#indicator__value').text(res);
+        }
+    })
 }

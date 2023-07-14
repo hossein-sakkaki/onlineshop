@@ -14,7 +14,7 @@ class ShopCart:
         product_id = str(product.id)
         if product_id not in self.shop_cart:
             self.shop_cart[product_id] = {'qty': 0, 'price': product.price}
-        self.shop_cart[product_id][qty] += qty
+        self.shop_cart[product_id][qty] += int(qty)
         self.count = len(self.shop_cart.keys())
         self.session.modified = True
         
