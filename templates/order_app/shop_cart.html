@@ -16,6 +16,7 @@ Shop Cart
         <th>Price</th>
         <th>Quantity</th>
         <th>Total Price</th>
+        <th>#</th>
     </tr>
     {% for item in shop_cart %}
     <tr>
@@ -27,6 +28,11 @@ Shop Cart
         <td>{{item.price}}</td>
         <td>{{item.qty}}</td>
         <td>{{item.total_price}}</td>
+        <td>
+            <a>
+                <i class="fa fa-trash"></i>
+            </a>
+        </td>
     </tr>
     {% endfor %}
 </table>

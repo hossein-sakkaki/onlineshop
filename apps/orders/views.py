@@ -16,4 +16,14 @@ def add_to_shop_cart(request):
     product = get_object_or_404(Product, id=product_id)
     shop_cart.add_to_shop_cart(product, qty)
     return HttpResponse(shop_cart.count)
+
+def delete_from_shop_cart(request):
+    product_id = request.GET.get('product_id')
+    product = get_object_or_404(Product, id=product_id)
+    shop_cart = ShopCart(request)
+    shop_cart.delete_from_shop_cart(product)
+    return HttpResponse(shop_cart.count)
+
+
+
         

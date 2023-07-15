@@ -61,3 +61,17 @@ function add_to_shop_cart(product_id, qty) {
         }
     })
 }
+
+function delete_from_shop_cart(product_id) {
+    $.ajax({
+        type: 'GET',
+        url: '/orders/delete_from_shop_cart/',
+        data: {
+            product_id: product_id,
+        },
+        success: function (res) {
+            alert('Product was delete from shop cart')
+            $('#indicator__value').text(res);
+        }
+    })
+}
