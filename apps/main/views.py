@@ -15,3 +15,6 @@ class SliderView(View):
     def get(self, request, *args, **kwargs):
         sliders = Slider.objects.filter(Q(is_active=True))
         return render(request, 'main_app/sliders.html', {'sliders': sliders})
+    
+def handler404(request, exception=None):
+    return render(request, 'main_app/404.html')
