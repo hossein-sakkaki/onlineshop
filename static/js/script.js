@@ -56,6 +56,7 @@ function add_to_shop_cart(product_id, qty) {
             qty: qty
         },
         success: function (res) {
+            alert('Product was add to shop cart')
             $('#indicator__value').text(res);
         }
     })

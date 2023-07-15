@@ -15,5 +15,5 @@ def add_to_shop_cart(request):
     shop_cart = ShopCart(request)
     product = get_object_or_404(Product, id=product_id)
     shop_cart.add_to_shop_cart(product, qty)
-    return HttpResponse('OK')
+    return HttpResponse(shop_cart.count)
         
