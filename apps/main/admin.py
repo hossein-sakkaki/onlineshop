@@ -9,4 +9,3 @@ class AdminSlider(admin.ModelAdmin):
     ordering = ('update_date',)
     readonly_fields = ('image_slide',) 
 
-# Register your models here.
