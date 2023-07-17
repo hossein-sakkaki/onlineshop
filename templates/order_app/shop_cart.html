@@ -29,7 +29,7 @@ Shop Cart
         <td>{{item.qty}}</td>
         <td>{{item.total_price}}</td>
         <td>
-            <a>
+            <a onclick="delete_from_shop_cart({{item.product.id}})" style="cursor: pointer;">
                 <i class="fa fa-trash"></i>
             </a>
         </td>

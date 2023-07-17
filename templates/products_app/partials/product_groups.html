@@ -1,8 +1,8 @@
-<ul class="">
+<ul class="filter-categories__list">
     {% for group in product_groups %}
         <li class="filter-categories__item filter-categories__item--parent">
-            <a  href="{% url '' %}"></a>
-            <div></div>
+            <a  href="{% url 'products:products_of_groups' slug=group.slug %}"></a>
+            <div class="filter-categories__counter">{{group.products_of_groups.all|length}}</div>
         </li>
     
     {% endfor %}
