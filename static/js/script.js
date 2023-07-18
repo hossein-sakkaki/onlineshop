@@ -46,8 +46,16 @@ function deleteFromCompareList(productId) {
     })
 }
 
+function select_sort() {
+    var select_sort_value = $('#select_sort').val();
+    var url = removeURLParameter(window.location.href, 'sort_type');
+    window.location = url + '&sort_type=' + select_sort_value;
+}
+
 function add_to_shop_cart(product_id, qty) {
-    // alert(productId+' '+qty)
+    if (qty === 0) {
+        qty = $('#product-quantity').val();
+    }
     $.ajax({
         type: 'GET',
         url: '/orders/add_to_shop_cart/',
@@ -71,7 +79,7 @@ function delete_from_shop_cart(product_id) {
         },
         success: function (res) {
             alert('Product was delete from shop cart')
-            $('#indicator__value').text(res);
+            $('#shop_cart_list').html(res);
         }
     })
 }

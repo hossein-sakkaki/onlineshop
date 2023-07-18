@@ -34,6 +34,12 @@ class ShopCart:
         for item in temp.values():
             item['total_price'] = item['price'] * item['qty']
             yield item
+            
+    def calc_total_price(self):
+        sum = 0
+        for item in self.shop_cart.values():
+            sum += item['price'] * item['qty']
+        return sum
         
 
  

@@ -5,40 +5,9 @@
 Shop Cart
 {% endblock title %}
 
-
 {% block content %}
-
-<table class="table table-bordered">
-    <tr>
-        <th>Row</th>
-        <th>Product Image</th>
-        <th>Product Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Total Price</th>
-        <th>#</th>
-    </tr>
-    {% for item in shop_cart %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>
-            <img src="{{media_url}}{{item.product.image_name}}" alt="" width="100">
-        </td>
-        <td>{{item.product.product_name}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.qty}}</td>
-        <td>{{item.total_price}}</td>
-        <td>
-            <a onclick="delete_from_shop_cart({{item.product.id}})" style="cursor: pointer;">
-                <i class="fa fa-trash"></i>
-            </a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
-
-
-
+    <div id="shop_cart_list">
+        {% render_partial 'orders:show_shop_cart' %}
+    </div>
 {% endblock content %}
 
