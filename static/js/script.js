@@ -41,16 +41,31 @@ function deleteFromCompareList(productId) {
         success: function (res) {
             alert('Deleted...!');
             $('#compare_list').html(res);
-            status_of_compare_list()
+            status_of_compare_list();
         }
     })
 }
 
+// choice product sort
 function select_sort() {
     var select_sort_value = $('#select_sort').val();
     var url = removeURLParameter(window.location.href, 'sort_type');
     window.location = url + '&sort_type=' + select_sort_value;
 }
+
+// shop cart
+status_of_shop_cart()
+function status_of_shop_cart() {
+    $.ajax({
+        type: 'GET',
+        url: '/orders/status_of_shop_cart/',
+        success: function (res) {
+            $('#indicator__value').text(res);
+        }
+    })
+}
+
+
 
 function add_to_shop_cart(product_id, qty) {
     if (qty === 0) {
@@ -64,8 +79,8 @@ function add_to_shop_cart(product_id, qty) {
             qty: qty
         },
         success: function (res) {
-            alert('Product was add to shop cart')
-            $('#indicator__value').text(res);
+            alert('Product was add to shop cart');
+            status_of_shop_cart();
         }
     })
 }
@@ -78,8 +93,32 @@ function delete_from_shop_cart(product_id) {
             product_id: product_id,
         },
         success: function (res) {
-            alert('Product was delete from shop cart')
+            alert('Product was delete from shop cart');
             $('#shop_cart_list').html(res);
+            status_of_shop_cart();
         }
     })
+}
+
+function update_shop_cart() {
+    alert('test');
+    var product_id_list = []
+    var qty_list = []
+    $('input[id^="qty_"]').each(function (index) {
+        product_id_list.push($(this).attr('id').slice(4));
+        qty_list.push($(this).val());
+    });
+    $.ajax({
+        type: 'GET',
+        url: '/orders/update_shop_cart/',
+        data: {
+            product_id_list: product_id_list,
+            qty_list: qty_list,
+        },
+        success: function (res) {
+            alert('yes');
+            $('#shop_cart_list').html(res);
+            status_of_shop_cart();
+        }
+    }) 
 }

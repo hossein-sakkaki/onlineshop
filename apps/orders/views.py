@@ -43,6 +43,17 @@ def delete_from_shop_cart(request):
     shop_cart.delete_from_shop_cart(product)
     return redirect('orders:show_shop_cart')
 
+def update_shop_cart(request):
+    product_id_list = request.GET.getlist('product_id_list[]')
+    qty_list = request.GET.getlist('qty_list[]')
+    shop_cart = ShopCart(request)
+    shop_cart.update(product_id_list,qty_list)
+    return redirect('orders:show_shop_cart')
+    
+def status_of_shop_cart(request):
+    shop_cart = ShopCart(request)
+    return HttpResponse(shop_cart.count)
+
 
 
         

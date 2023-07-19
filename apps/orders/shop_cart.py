@@ -16,12 +16,12 @@ class ShopCart:
             self.shop_cart[product_id] = {'qty': 0, 'price': product.price}
         self.shop_cart[product_id][qty] += int(qty)
         self.count = len(self.shop_cart.keys())
-        self.session.modified = True
+        self.save()
         
     def delete_from_shop_cart(self, product, qty):
         product_id = str(product.id)
         del self.shop_cart[product_id]
-        self.session.modified = True
+        self.save()
         
     def __iter__(self):
         list_id = self.shop_cart.keys()
@@ -40,6 +40,17 @@ class ShopCart:
         for item in self.shop_cart.values():
             sum += item['price'] * item['qty']
         return sum
+    
+    def save(self):
+        self.session.modified = True
+        
+    
+    def update(self, product_id_list, qty_list):
+        i = 0
+        for product_id in product_id_list:
+            self.shop_cart[product_id]['qty'] = int(qty_list[i])
+            i += 1
+        self.save()
         
 
  
