@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from apps.accounts.models import Customer
+from apps.products.models import Product
 
 
 class OrderState(models.Model):
@@ -23,3 +24,12 @@ class Order(models.Model):
     def get_order_total_price(request):
         sum = 0
         
+class OrderDetail(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="order", related_name='orders_details1')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="product", related_name='orders_details2')
+    qty = models.PositiveIntegerField(default=1, verbose_name='Quantity')
+    price = models.IntegerField(verbose_name='Price in the invoice')
+    
+    def __str__(self):
+        return f"{self.order}\t{self.product}\t{self.qty}\t{self.price}" 
+    
