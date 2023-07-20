@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin, BaseUserManager, UserManager
 from django.utils import timezone
-# Create your models here.
-
+from utils import FileUpload
 
 class CostomUserManeger(BaseUserManager):
     def create_user(self,mobile_number, email='', name='', family='', active_code=None, gender=None, password=None):
@@ -63,4 +62,12 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     
     
 class Customer(models.Model):
-    pass
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    file_upload = FileUpload('images', 'customer')
+    image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name='Profile image')
+    
+    def __str__(self) -> str:
+        return f"{self.user}"
+    
