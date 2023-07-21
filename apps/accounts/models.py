@@ -66,8 +66,7 @@ class Customer(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     file_upload = FileUpload('images', 'customer')
-    image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name='Profile image')
+    image_name = models.ImageField(upload_to=file_upload.upload_to, verbose_name='Profile image', null=True, blank=True)
     
     def __str__(self) -> str:
         return f"{self.user}"
-    

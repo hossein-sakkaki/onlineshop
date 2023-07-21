@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from apps.accounts.models import Customer
 from apps.products.models import Product
+import uuid
 
 
 class OrderState(models.Model):
@@ -16,6 +17,8 @@ class Order(models.Model):
     register_date = models.DateField(default=timezone.now, verbose_name='Register date')
     update_date = models.DateField(auto_now=True, verbose_name='Edit finaly date')
     is_finaly = models.BooleanField(default=False, verbose_name='Finaly')
+    order_code = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name='Create code for order')
+    discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='Discount on invoice')
     
     order_state = models.ForeignKey(OrderState, on_delete=models.CASCADE, related_name='orders_states',verbose_name="Order state", null=True, blank=True)
     
@@ -24,7 +27,8 @@ class Order(models.Model):
     def get_order_total_price(request):
         sum = 0
         
-class OrderDetail(models.Model):
+
+class OrderDetails(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="order", related_name='orders_details1')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="product", related_name='orders_details2')
     qty = models.PositiveIntegerField(default=1, verbose_name='Quantity')

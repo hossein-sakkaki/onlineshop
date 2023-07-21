@@ -3,6 +3,9 @@ from django.views import View
 from .shop_cart import ShopCart
 from apps.products.models import Product
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from apps.accounts.models import Customer
+from apps.orders.models import Order, OrderDetails
 
 class ShopCartView(View):
     def get(self, request, *args, **kwargs):
@@ -55,5 +58,19 @@ def status_of_shop_cart(request):
     return HttpResponse(shop_cart.count)
 
 
-
-        
+class CreateOrderView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        customer = get_object_or_404(customer, user=request.user)
+        if not customer:
+            customer = Customer.objects.create(user=request.user)
+            
+            order = Order.objects.create(customer=customer)
+            shop_cart = ShopCart(request)
+            for item in shop_cart:
+                OrderDetails.objects.create(
+                    order = order,
+                    product = item['product'],
+                    price = item['price'],
+                    qty = item['qty']
+                )
+            return redirect('main:index')

@@ -92,7 +92,9 @@
 											<td>{{order_final_price|intcomma}} $</td>
 										</tr>
 									</tfoot>
-								</table><a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="checkout.html">پرداخت</a></div>
+								</table>
+								<a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{% url 'orders:create_order' %}">Continue</a>
+							</div>
 						</div>
 					</div>
 				</div>
