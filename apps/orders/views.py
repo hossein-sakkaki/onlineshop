@@ -5,7 +5,8 @@ from apps.products.models import Product
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.accounts.models import Customer
-from apps.orders.models import Order, OrderDetails
+from apps.orders.models import Order, OrderDetails, PaymentType
+from .forms import OrderForm
 
 class ShopCartView(View):
     def get(self, request, *args, **kwargs):
@@ -64,7 +65,7 @@ class CreateOrderView(LoginRequiredMixin, View):
         if not customer:
             customer = Customer.objects.create(user=request.user)
             
-            order = Order.objects.create(customer=customer)
+            order = Order.objects.create(customer=customer, payment_type=get_object_or_404(PaymentType, id=1))
             shop_cart = ShopCart(request)
             for item in shop_cart:
                 OrderDetails.objects.create(
@@ -73,4 +74,40 @@ class CreateOrderView(LoginRequiredMixin, View):
                     price = item['price'],
                     qty = item['qty']
                 )
-            return redirect('main:index')
+            return redirect('main:checkout_order', order.id)
+        
+        
+class CheckoutOrderView(LoginRequiredMixin, View):
+    def get(self, request, order_id):
+        user = request.user
+        customer = get_object_or_404(Customer, user=user)
+        shop_cart = ShopCart(request)
+        order = get_object_or_404(Order, id=order_id)
+        
+        total_price = shop_cart.calc_total_price()
+        delivery = 20
+        if total_price > 500:
+            delivery = 0
+        tax = 0.09 * total_price
+        order_final_price = total_price + delivery + tax
+        
+        data={
+            'name': user.name,
+            'family': user.family,
+            'email': user.email,
+            'phone_number': customer.phone_number,
+            'address': customer.address,
+            'description': order.description,
+            'payment_type': order.payment_type,
+        }
+        form = OrderForm(data)
+        
+        context = {
+            'shop_cart': shop_cart,
+            'total_price': total_price,
+            'delivery': delivery,
+            'tax': tax,
+            'order_final_price': order_final_price,
+            'form': form
+        }
+        return render(request, 'order_app/checkout.html', context)

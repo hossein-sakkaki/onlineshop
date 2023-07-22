@@ -11,6 +11,12 @@ class OrderState(models.Model):
     def __str__(self):
         return self.order_state_title
     
+class PaymentType(models.Model):
+    payment_title = models.CharField(max_length=50, verbose_name='Payment title')
+    
+    def __str__(self) -> str:
+        return self.payment_title
+    
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE,related_name='orders' ,verbose_name='Costomer')
@@ -19,6 +25,8 @@ class Order(models.Model):
     is_finaly = models.BooleanField(default=False, verbose_name='Finaly')
     order_code = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name='Create code for order')
     discount = models.IntegerField(blank=True, null=True, default=None, verbose_name='Discount on invoice')
+    description = models.TextField(null=True, blank=True, verbose_name='Description')
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.CASCADE, default=None, null=True, blank=True, verbose_name="Payment title", related_name='payment_types')
     
     order_state = models.ForeignKey(OrderState, on_delete=models.CASCADE, related_name='orders_states',verbose_name="Order state", null=True, blank=True)
     
