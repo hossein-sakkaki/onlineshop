@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.accounts.models import Customer
 from apps.orders.models import Order, OrderDetails, PaymentType
 from .forms import OrderForm
+from django.core.exceptions import ObjectDoesNotExist
 
 class ShopCartView(View):
     def get(self, request, *args, **kwargs):
@@ -61,8 +62,9 @@ def status_of_shop_cart(request):
 
 class CreateOrderView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        customer = get_object_or_404(customer, user=request.user)
-        if not customer:
+        try:
+            customer = Customer.objects.get(user = request.user)
+        except ObjectDoesNotExist:
             customer = Customer.objects.create(user=request.user)
             
             order = Order.objects.create(customer=customer, payment_type=get_object_or_404(PaymentType, id=1))

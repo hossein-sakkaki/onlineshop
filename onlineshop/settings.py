@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.search.apps.SearchConfig',
     'apps.orders.apps.OrdersConfig',
     'apps.payments.apps.PaymentsConfig',
+    'apps.discounts.apps.DiscountsConfig',
     
     'django_admin_listfilter_dropdown',
     'ckeditor',

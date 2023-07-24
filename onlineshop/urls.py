@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/',include('apps.accounts.urls',namespace='accounts')),
     path('products/',include('apps.products.urls',namespace='products')),
     path('orders/',include('apps.orders.urls',namespace='orders')),
+    path('discounts/',include('apps.discounts.urls',namespace='discounts')),
     path('payments/',include('apps.payments.urls',namespace='payments')),
     path('feedback/',include('apps.feedback.urls',namespace='feedback')),
     path('search/',include('apps.search.urls',namespace='search')),
