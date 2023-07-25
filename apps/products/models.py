@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 from middlewares.middlewares import RequestMiddleware
+from datetime import datetime
 
 #---------==========================================================---------#
 
@@ -106,6 +107,18 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("products:product_detail", kwargs={"slug": self.slug})
     
+    def get_price_by_discount(self):
+        list1 = []
+        for dbd in self.discount_basket_details2.all() :
+            if (dbd.discount_basket.is_active == True and
+            dbd.discount_basket.start_date <= datetime.now() and
+            datetime.now() <= dbd.discount_basket.end_date ):
+                list1.append(dbd.discount_basket.discount)
+        discount=0
+        if (len(list1) > 0):
+            discount = (max(list1))
+            return self.price - (self.price * discount/100)
+                
 #---------==========================================================---------#
 class FeatureValue(models.Model):
     value_title = models.CharField( max_length=100, verbose_name="Value title")
