@@ -26,4 +26,3 @@ class DiscountBasket(models.Model):
 class DiscountBasketDetails(models.Model):
     discount_basket = models.ForeignKey(DiscountBasket, on_delete=models.CASCADE, verbose_name="Discount basket", related_name='discount_basket_details1')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product', related_name='discount_basket_details2')
-    

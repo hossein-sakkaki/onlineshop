@@ -15,7 +15,12 @@
         </div>
     </div>
     <div class="product-card__actions">
-        <div class="product-card__prices">{{product.price|intcomma}} $</div>
+        {% if product.price > product.get_price_by_discount %}
+            <div class="product-card__prices"><del>{{product.price|intcomma}} $</del></div>
+            <div class="product-card__prices">{{product.get_price_by_discount|intcomma}} $</div>
+        {% else %}
+            <div class="product-card__prices">{{product.price|intcomma}} $</div>
+        {% endif %}
         <div class="product-card__buttons">
             <button class="btn btn-primary product-card__addtocart"
                 type="button" onclick="add_to_shop_cart({{product_id}},1)">
@@ -57,17 +62,14 @@
 
     </div>
     <div class="product-card__actions">
-        <div class="product-card__availability">موجودی: <span
-                class="text-success">موجود
-                در انبار</span></div>
-        <div class="product-card__prices"><span
-                class="product-card__new-price">184,000
-                تومان</span> <span class="product-card__old-price">{{product.price|intcomma}}
-                تومان</span></div>
+        {% if product.price > product.get_price_by_discount %}
+            <div class="product-card__prices"><del>{{product.price|intcomma}} $</del></div>
+            <div class="product-card__prices">{{product.get_price_by_discount|intcomma}} $</div>
+        {% else %}
+            <div class="product-card__prices">{{product.price|intcomma}} $</div>
+        {% endif %}
         <div class="product-card__buttons">
-            <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{product_id}},1)">
-                Add to basket
-            </button>
+            <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{product_id}},1)">Add to basket</button>
             <button
                 class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
                 type="button">
@@ -99,7 +101,12 @@
         </div>
         <div class="product-card__actions">
             <div class="product-card__availability">موجودی: <span class="text-success">موجود در انبار</span></div>
-            <div class="product-card__prices">{{product.price|intcomma}} $</div>
+            {% if product.price > product.get_price_by_discount %}
+                <div class="product-card__prices"><del>{{product.price|intcomma}} $</del></div>
+                <div class="product-card__prices">{{product.get_price_by_discount|intcomma}} $</div>
+            {% else %}
+                <div class="product-card__prices">{{product.price|intcomma}} $</div>
+            {% endif %}
             <div class="product-card__buttons">
                 <button class="btn btn-primary product-card__addtocart" type="button" onclick="add_to_shop_cart({{product_id}},1)">Add to basket</button>
                 <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" onclick="add_to_shop_cart({{product_id}},1)">Add to basket</button>
